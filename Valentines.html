@@ -1,0 +1,317 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Be My Valentine?</title>
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-image: linear-gradient(to right, #cc9cfd, rgb(255, 134, 134));
+        font-family: "Arial", sans-serif;
+        overflow: hidden;
+      }
+      .container {
+        text-align: center;
+        position: relative;
+      }
+      h1 {
+        font-size: 2rem; /* Smaller font size for mobile */
+        color: #a52698;
+        margin: 0 10px; /* Add margin for small screens */
+      }
+      .buttons {
+        margin-top: 20px;
+      }
+      button {
+        padding: 15px 30px; /* Larger buttons for mobile */
+        font-size: 1.2rem;
+        margin: 0 10px;
+        border: none;
+        border-radius: 25px;
+        cursor: pointer;
+        transition: transform 0.02s ease;
+      }
+      #yesButton {
+        background-image: linear-gradient(to right, #a56edc, rgb(122, 0, 243));
+        color: rgb(255, 255, 255);
+      }
+      #noButton {
+        background-image: linear-gradient(to right, #f975d8, rgb(255, 27, 213));
+        color: white;
+        position: relative;
+      }
+      #message {
+        margin-top: 20px;
+        font-size: 1.2rem; /* Smaller font size for mobile */
+        color: #831689db;
+        display: none;
+      }
+      .balloon {
+        position: absolute;
+        font-size: 2.5rem;
+        color: #be26b1;
+        animation: float 5s infinite ease-in-out;
+      }
+      @keyframes float {
+        0%,
+        100% {
+          transform: translate(0, 0);
+        }
+        25% {
+          transform: translate(50px, -50px);
+        }
+        50% {
+          transform: translate(-50px, 50px);
+        }
+        75% {
+          transform: translate(50px, 50px);
+        }
+      }
+      @keyframes explode {
+        0% {
+          transform: scale(1);
+          opacity: 1;
+        }
+        100% {
+          transform: scale(10);
+          opacity: 0;
+        }
+      }
+      .confetti {
+        position: fixed;
+        width: 10px;
+        height: 10px;
+        background-image: linear-gradient(to right, #c22da2, #530642);
+        animation: confetti-fall 5s linear infinite;
+      }
+      .confetti2 {
+        position: fixed;
+        width: 10px;
+        height: 10px;
+        background-image: linear-gradient(to right, #ff0000, #390e0e);
+        animation: confetti-fall 3.5s linear infinite;
+      }
+      @keyframes confetti-fall {
+        0% {
+          transform: translateY(-100vh) rotate(0deg);
+        }
+
+        100% {
+          transform: translateY(100vh) rotate(360deg);
+        }
+      }
+
+      /* Popup container */
+      .popup {
+        position: relative;
+        display: inline-block;
+        cursor: pointer;
+      }
+
+      /* The actual popup (appears on top) */
+      .popup .popuptext {
+        visibility: hidden;
+        width: 160px;
+        background-color: #555;
+        color: #fff;
+        text-align: center;
+        border-radius: 6px;
+        padding: 8px 0;
+        position: absolute;
+        z-index: 1;
+        bottom: 125%;
+        left: 50%;
+        margin-left: -80px;
+      }
+
+      /* Popup arrow */
+      .popup .popuptext::after {
+        content: "";
+        position: absolute;
+        top: 100%;
+        left: 50%;
+        margin-left: -5px;
+        border-width: 5px;
+        border-style: solid;
+        border-color: #555 transparent transparent transparent;
+      }
+
+      /* Toggle this class when clicking on the popup container (hide and show the popup) */
+      .popup .show {
+        visibility: visible;
+        -webkit-animation: fadeIn 2s;
+        animation: fadeIn 2s;
+      }
+
+      /* Add animation (fade in the popup) */
+      @-webkit-keyframes fadeIn {
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1 id="main">
+        Hi Liv. We've Been Through Our Battles And Although We Still Have A Lot To Work On, There's No I'd Rather Have As My Valentine Than You. So Will You Do Me The Honour Of Being My First Ever Valentine?
+      </h1>
+      
+      <div class="buttons">
+        <button id="yesButton">Yes</button>
+        <button id="noButton">No</button>
+      </div>
+      <div id="message">
+        🕺🕺🕺OOOHHH!!! 💖💖💖<br />
+        We're gonna stay up late, swapping manly stories and in the morning
+        <strong> I'M MAKING WAFFLES!!!</strong>
+      </div>
+      <!-- Balloons -->
+
+      <div class="balloon" style="top: 50%; left: 15%">💜</div>
+      <div class="balloon" style="top: 0%; left: 20%">💖</div>
+
+      <div class="balloon" style="top: 50%; left: 30%">💜</div>
+      <div class="balloon" style="top: 0%; left: 35%">💜</div>
+
+      <div class="balloon" style="top: 50%; left: 45%">💖</div>
+      <div class="balloon" style="top: 0%; left: 50%">💜</div>
+
+      <div class="balloon" style="top: 50%; left: 60%">💜</div>
+      <div class="balloon" style="top: 0%; left: 65%">💖</div>
+    </div>
+
+    </div>
+
+    <script>
+      const noButton = document.getElementById("noButton");
+      const yesButton = document.getElementById("yesButton");
+      const message = document.getElementById("message");
+
+      // Function to move the "No" button
+      const moveNoButton = () => {
+        const x = Math.random() * 150-40; // Smaller movement range for mobile
+        const y = Math.random() * 100-40; // Smaller movement range for mobile
+        noButton.style.transform = `translate(${x}px, ${y}px)`;
+      };
+
+      // Resize yes button
+      const resizeYesButton = () => {
+        const x = Math.random() + 2; // Smaller movement range for mobile
+        const y = Math.random() + 2; // Smaller movement range for mobile
+        yesButton.style.transform = `scale(${x},${y})`;
+      };
+
+      // Add event listeners for both mouse and touch events
+      //noButton.addEventListener("mouseover", moveNoButton);
+      //noButton.addEventListener("mouseover", resizeYesButton);
+      noButton.addEventListener("mouseover", () => {
+        moveNoButton();
+        resizeYesButton();
+      });
+
+      noButton.addEventListener("touchstart", () => {
+        moveNoButton();
+        resizeYesButton();
+      });
+
+      // Add event listener for pop up
+      a = 0;
+
+      noButton.addEventListener("click", () => {
+        a++;
+        if (a == 2) {
+          //message =
+          //"How'd I know.😒 And what are you doing😂😂😂. Oh, I forgot to tell you that you don't have a choice here😂😂😂. You're mine lady, now behave😂😘.";
+          //var popup = document.getElementById("myPopup");
+          //popup.classList.toggle("show");
+          alert(
+            "How'd I know.😒 And what are you doing😂😂😂. Oh, I forgot to tell you that you don't have a choice here😂😂😂. You're mine lady, now behave😂😘.",
+          );
+        } else if (a == 3) {
+          alert("I'm serious😂😂😂");
+        } else if (a == 4) {
+          alert("😕 Really");
+        } else if (a == 5) {
+          alert(
+            "😭😭😭 Ok. I undertstand. You can press No again. The program will end.",
+          );
+        } else if (a == 6) {
+          alert("Sike, I lied! 😂😂😂. Yes is the only option");
+        } else if (a == 7) {
+          alert("😂😂😂 You're still going?");
+        } else if (a == 9) {
+          alert("Yes is the only escape. 😂😂😂");
+        }
+
+        //document.getElementById("value").textContent = a;
+        //console.log("New value: " + a);
+        //document.getElementById("display-area").innerHTML = a;
+        //var popup = document.getElementById("myPopup");
+       // popup.classList.toggle("show");
+      });
+
+      // When the user clicks on <div>, open the popup
+      //function myFunction() {
+      //var popup = document.getElementById("myPopup");
+      // popup.classList.toggle("show");
+      //}
+
+      // Add event listeners for click events
+      noButton.addEventListener("click", resizeYesButton);
+
+      yesButton.addEventListener("click", () => {
+        // Show the message
+        message.style.display = "block";
+        document.querySelector(".buttons").style.display = "none";
+
+        // Surprise animation: Balloons explode and confetti falls
+        const balloons = document.querySelectorAll(".balloon");
+        balloons.forEach((balloon) => {
+          balloon.style.animation = "explode 5s forwards";
+        });
+
+        // Add confetti
+        for (let i = 0; i < 300-100; i++) {
+          // Fewer confetti for mobile performance
+          const confetti = document.createElement("div");
+          confetti.classList.add("confetti");
+          confetti.style.right = `${Math.random() * 100}vw`;
+          confetti.style.animationDelay = `${Math.random() * 2}s`;
+          // confetti.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 50%)`;
+          document.body.appendChild(confetti);
+        }
+
+        // Add confetti
+        for (let y = 0; y < 200-100; y++) {
+          // Fewer confetti for mobile performance
+          const confetti2 = document.createElement("div");
+          confetti2.classList.add("confetti2");
+          confetti2.style.right = `${Math.random() * 100}vw`;
+          confetti2.style.animationDelay = `${Math.random() * 2}s`;
+          // confetti.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 50%)`;
+          document.body.appendChild(confetti2);
+        }
+
+        document.getElementById("main").innerHTML = "LOVE YOU GIRL 😘😘😘";
+      });
+    </script>
+  </body>
+</html>
